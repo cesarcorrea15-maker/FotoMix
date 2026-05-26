@@ -1364,7 +1364,7 @@
 
     // Canvas toolbar: Negrita -> alterna negrita en el título de la vista previa
       try {
-        const previewLabel = document.querySelector('.preview-panel .section-label');
+        const previewLabel = document.querySelector('.preview-panel>.section-label');
         // Color is now applied only to canvas text through render()
       if (DOM.canvasTextBold) {
         DOM.canvasTextBold.addEventListener('click', () => {
@@ -1372,7 +1372,7 @@
           const isActive = state.text.bold;
           // Apply font-weight toggle to all relevant preview elements
           try {
-            const previewSelectors = ['.preview-panel .section-title', '.preview-panel .section-label'];
+            const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
             document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
               el.classList.toggle('text-bold-active', isActive);
               el.style.fontWeight = isActive ? '800' : '';
@@ -1389,7 +1389,7 @@
           state.text.italic = !state.text.italic;
           const isActive = state.text.italic;
           try {
-            const previewSelectors = ['.preview-panel .section-title', '.preview-panel .section-label'];
+            const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
             document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
               el.classList.toggle('text-italic-active', isActive);
               el.style.fontStyle = isActive ? 'italic' : '';
@@ -1406,7 +1406,7 @@
           state.text.underline = !state.text.underline;
           const isActive = state.text.underline;
           try {
-            const previewSelectors = ['.preview-panel .section-title', '.preview-panel .section-label'];
+            const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
             document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
               el.classList.toggle('text-underline-active', isActive);
               el.style.textDecoration = isActive ? 'underline' : '';
@@ -1450,7 +1450,7 @@
            state.text.color = event.target.value;
           const isActive = state.text.color && state.text.color !== '#ffffff';
           try {
-            const previewSelectors = ['.preview-panel .section-title'];
+            const previewSelectors = ['.preview-panel>.section-title'];
             document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
               el.classList.toggle('text-color-active', isActive);
               el.style.color = isActive ? state.text.color : '#000000';
@@ -1470,7 +1470,7 @@
            state.text.backgroundColor = (val === '' ? null : val);
           const isActive = state.text.backgroundColor !== null && state.text.backgroundColor !== undefined && state.text.backgroundColor !== '#ffffff';
           try {
-            const previewSelectors = ['.preview-panel .section-title', '.preview-panel .section-label'];
+            const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
             document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
               el.classList.toggle('text-colorbg-active', isActive);
               el.style.backgroundColor = isActive ? state.text.backgroundColor : '';
@@ -1488,7 +1488,7 @@
       DOM.canvasTextBgClear.addEventListener('click', () => {
         state.text.backgroundColor = null;
         try {
-          const previewSelectors = ['.preview-panel .section-title', '.preview-panel .section-label'];
+          const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
           document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
             el.classList.remove('text-colorbg-active');
             el.style.backgroundColor = '';
