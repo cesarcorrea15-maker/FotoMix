@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <!-- Removed X-Frame-Options meta: must be set via HTTP header -->
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy"
+    content="accelerometer=(), ambient-light-sensor=(), camera=(), microphone=(), geolocation=(), gyroscope=(), magnetometer=(), payment=()">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Compositor de fotos moderno, responsive y accesible con validación de seguridad">
+  <meta name="theme-color" content="#080d14">
+  <title>FotoMix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;700;800&display=swap"
+    rel="stylesheet">
+  <!-- Removed integrity/crossorigin for local development to avoid blocked resource when hash mismatches -->
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <script src="js/bootstrap.bundle.min.js" type="text/javascript" defer></script>
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+  <header class="navbar navbar-expand-lg navbar-dark" role="banner">
+    <div class="container-fluid px-4">
+      <div
+        class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 w-100">
+        <div class="brand">
+          <div>
+            <h1 class="logo">Foto<span>Mix</span></h1>
+            <p class="tagline mb-0">Compositor personaliza tus fotos.</p>
+          </div>
+        </div>
+        <nav role="navigation" aria-label="Menú principal" class="navbar-modern">
+          <ul class="nav">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container-fluid px-4 py-4">
+    <div class="app-grid row gx-4 gy-4">
+      <aside class="col-md-4 col-lg-12">
+        <div class="card config-panel bg-dark text-light border-secondary shadow-sm h-100">
+          <div class="card-body d-flex flex-column gap-4 px-4 py-4">
+
+            <section class="section" aria-labelledby="bg-section-label">
+              <h1 class="section-title">Panel de Configuración</h1>
+              <h2 class="section-label" id="bg-section-label">01 · fondo</h2>
+              <div class="drop-zone" id="bg-drop" aria-label="Zona de carga para imagen de fondo">
+                <input type="file" id="bg-input" accept="image/jpeg,image/png,image/webp"
+                  aria-label="Carga imagen de fondo (JPEG, PNG o WebP, máximo 10MB)">
+                <div class="drop-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <circle cx="8" cy="8" r="1.7" />
+                    <path d="M3 16l5-5 4 4 3-3 5 5" />
+                  </svg>
+                </div>
+                <p>Carga imagen de fondo</p>
+                <img class="thumb" id="bg-thumb" alt="Previsualización de imagen de fondo">
+              </div>
+            </section>
+
+            <section class="section" aria-labelledby="fg-section-label">
+              <h2 class="section-label" id="fg-section-label">02 · tu foto</h2>
+              <div class="drop-zone" id="fg-drop" aria-label="Zona de carga para tu foto">
+                <input type="file" id="fg-input" accept="image/jpeg,image/png,image/webp"
+                  aria-label="Carga tu foto (JPEG, PNG o WebP, máximo 10MB, se pone al frente)">
+                <div class="drop-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="3" />
+                    <path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+                  </svg>
+                </div>
+                <p>Carga tu foto (se pone al frente)</p>
+                <img class="thumb" id="fg-thumb" alt="Previsualización de tu foto">
+              </div>
+            </section>
+
+            <hr class="divider">
+
+            <section class="section" aria-labelledby="adjust-section-label">
+              <h2 class="section-label" id="adjust-section-label">ajustes de foto</h2>
+
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="size-slider">Tamaño <span class="ctrl-val"
+                    id="size-val">100%</span></label>
+                <input type="range" id="size-slider" min="5" max="300" value="100" step="1"
+                  aria-label="Ajustar tamaño de la foto">
+              </div>
+
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="opacity-slider">Opacidad <span class="ctrl-val"
+                    id="opacity-val">100%</span></label>
+                <input type="range" id="opacity-slider" min="10" max="100" value="100" step="1"
+                  aria-label="Ajustar opacidad de la foto">
+              </div>
+
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="rot-slider">Rotación <span class="ctrl-val"
+                    id="rot-val">0°</span></label>
+                <input type="range" id="rot-slider" min="-180" max="180" value="0" step="1"
+                  aria-label="Ajustar rotación de la foto">
+              </div>
+
+              <div>
+                <div class="ctrl-label mb-2">Ajuste rápido</div>
+                <div class="fit-btns">
+                  <button type="button" class="btn btn-outline-light btn-icon" id="btn-fit-w"
+                    aria-label="Ajustar foto al ancho del canvas">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 12h16" />
+                      <path d="M10 6l-6 6 6 6" />
+                      <path d="M14 6l6 6-6 6" />
+                    </svg>
+                    <span>Ancho</span>
+                  </button>
+                  <button type="button" class="btn btn-outline-light btn-icon" id="btn-fit-h"
+                    aria-label="Ajustar foto al alto del canvas">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 4v16" />
+                      <path d="M6 10l6-6 6 6" />
+                      <path d="M6 14l6 6 6-6" />
+                    </svg>
+                    <span>Alto</span>
+                  </button>
+                  <button type="button" class="btn btn-outline-light btn-icon" id="btn-center"
+                    aria-label="Centrar foto en el canvas">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="6" />
+                      <path d="M12 6v4" />
+                      <path d="M12 14v4" />
+                      <path d="M6 12h4" />
+                      <path d="M14 12h4" />
+                    </svg>
+                    <span>Centrar</span>
+                  </button>
+                  <button type="button" class="btn btn-outline-light btn-icon" id="btn-reset"
+                    aria-label="Reiniciar ajustes de la foto">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 3v6h6" />
+                      <path d="M19 21v-6h-6" />
+                      <path d="M9 8a7 7 0 1 1 7 9" />
+                    </svg>
+                    <span>Reset</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div class="ctrl-label mb-2">Espejo</div>
+                <div class="flip-btns">
+                  <button type="button" class="btn btn-outline-light btn-icon" id="btn-flip-h"
+                    aria-label="Voltear foto horizontalmente">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 6v12" />
+                      <path d="M19 6l-6 6 6 6" />
+                    </svg>
+                    <span>Horizontal</span>
+                  </button>
+                  <button type="button" class="btn btn-outline-light btn-icon" id="btn-flip-v"
+                    aria-label="Voltear foto verticalmente">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <path d="M6 5h12" />
+                      <path d="M6 19l6-6 6 6" />
+                    </svg>
+                    <span>Vertical</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <hr class="divider">
+
+            <section class="section" aria-labelledby="text-section-label">
+              <h2 class="section-label" id="text-section-label">03 · texto</h2>
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="text-input">Mensaje <span class="ctrl-val" id="text-word-count">0 /
+                    120</span></label>
+                <textarea id="text-input" class="text-input" rows="3" maxlength="120"
+                  placeholder="Escribe tu mensaje de cumpleaños para la tarjeta"
+                  aria-label="Texto a mostrar encima de la foto"></textarea>
+              </div>
+              <hr class="divider">
+              <h3 class="section-label">Subtítulo secundario</h3>
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="subtitle-input">Subtítulo <span class="ctrl-val" id="subtitle-word-count">0</span></label>
+                <input id="subtitle-input" class="text-input" type="text" maxlength="120" placeholder="Texto secundario" aria-label="Subtítulo secundario">
+              </div>
+            </section>
+
+            <section class="section" aria-labelledby="desc-section-label">
+              <h2 class="section-label" id="desc-section-label">04 · detalle / descripción</h2>
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="desc-input">Descripción <span class="ctrl-val" id="desc-word-count">0 /
+                    200</span></label>
+                <textarea id="desc-input" class="text-input" rows="2" maxlength="200"
+                  placeholder="Detalle o descripción de la foto" aria-label="Descripción breve de la foto"></textarea>
+              </div>
+            </section>
+
+            <hr class="divider">
+
+            <section class="section mb-0" aria-labelledby="export-section-label">
+              <h2 class="section-label" id="export-section-label">04 · exportar</h2>
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="quality-slider">Calidad JPEG <span class="ctrl-val"
+                    id="quality-val">95%</span></label>
+                <input type="range" id="quality-slider" min="50" max="100" value="95" step="1"
+                  aria-label="Ajustar calidad JPEG de exportación">
+              </div>
+              <div class="d-flex justify-content-end align-items-center gap-2 controles-exportacion">
+                <button type="button" class="btn btn-primary d-inline-flex align-items-center buttonPrimario"
+                  id="btn-export" aria-label="Exportar composición final como JPEG">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="me-1">
+                    <path d="M12 3v12"></path>
+                    <path d="M8 11l4 4 4-4"></path>
+                    <path d="M4 21h16"></path>
+                  </svg>
+                  <span>Exportar</span>
+                </button>
+
+                <button type="button" class="btn btn-secondary d-inline-flex align-items-center buttonSecundario"
+                  id="btn-export-png" aria-label="Exportar composición final como PNG sin pérdida">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="me-1">
+                    <path d="M12 3v12"></path>
+                    <path d="M8 11l4 4 4-4"></path>
+                    <path d="M4 21h16"></path>
+                  </svg>
+                  <span>Exportar PNG</span>
+                </button>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </aside>
+
+      <section class="col-md-8 col-lg-12">
+        <div class="panel-configuracion  text-light border-secondary shadow-sm h-100">
+           <div class="previo-titulo">
+                <h1 class="section-title">Vista previa</h1>
+                <h2 class="section-label">Cambios aplicados en tiempo real</h2>
+              </div>
+              <div class="preview-controls d-flex align-items-center gap-2">
+                <label class="ctrl-label" for="preview-text-size">Tamaño texto:<span class="ctrl-val" id="preview-text-size-val">0</span></label>
+                <label class="visually-hidden" for="preview-text-size">Tamaño texto</label>
+                <input id="preview-text-size" type="range" min="16" max="96" value="40" step="1"
+                  aria-label="Ajustar tamaño del texto (vista previa)">
+              </div>
+
+             <div class="text-toolbar-bar">
+                  <div class="d-flex gap-3">
+                      <!-- Icons -->
+                      <button type="button" class="btn btn-sm btn-outline-light" id="canvas-text-bold" data-action="toggle-bold" aria-pressed="false" aria-label="Negrita" title="Negrita"><strong>B</strong></button>
+                      <button type="button" class="btn btn-sm btn-outline-light" id="canvas-text-italic" data-action="toggle-italic" aria-pressed="false" aria-label="Cursiva" title="Cursiva"><em>I</em></button>                          </li>
+                      <button type="button" class="btn btn-sm btn-outline-light" id="canvas-text-underline" data-action="toggle-underline" aria-pressed="false" aria-label="Subrayado" title="Subrayado">U</button>
+                      <button type="button" class="btn btn-sm btn-outline-light" id="canvas-text-size-dec" data-action="size-decrease" aria-label="Disminuir tamaño" title="Disminuir tamaño">A-</button>
+                      <button type="button" class="btn btn-sm btn-outline-light" id="canvas-text-size-inc" data-action="size-increase" aria-label="Aumentar tamaño" title="Aumentar tamaño">A+</button>
+                      
+                      <select id="canvas-text-font-select" class="form-select form-select-sm ms-2" aria-label="Seleccionar fuente" title="Seleccionar fuente">
+                        <option value="'Syne', 'Inter', sans-serif">Syne</option>
+                        <option value="'Inter', sans-serif">Inter</option>
+                        <option value="'Space Grotesk', 'Inter', sans-serif">Space Grotesk</option>
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                        <option value="'Poppins', sans-serif">Poppins</option>
+                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                        <option value="'Lato', sans-serif">Lato</option>
+                        <option value="'Open Sans', sans-serif">Open Sans</option>
+                        <option value="'Nunito', sans-serif">Nunito</option>
+                        <option value="'Raleway', sans-serif">Raleway</option>
+                        <option value="'Oswald', sans-serif">Oswald</option>
+                        <option value="'Merriweather', serif">Merriweather</option>
+                        <option value="'Playfair Display', serif">Playfair Display</option>
+                        <option value="'Quicksand', sans-serif">Quicksand</option>
+                        <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+                        <option value="'Ubuntu', sans-serif">Ubuntu</option>
+                        <option value="'Work Sans', sans-serif">Work Sans</option>
+                        <option value="'Fira Sans', sans-serif">Fira Sans</option>
+                        <option value="'DM Sans', sans-serif">DM Sans</option>
+                        <option value="'Cabin', sans-serif">Cabin</option>
+                        <option value="'Exo 2', sans-serif">Exo 2</option>
+                        <option value="'Inconsolata', monospace">Inconsolata</option>
+                        <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+                        <option value="'PT Sans', sans-serif">PT Sans</option>
+                        <option value="'PT Serif', serif">PT Serif</option>
+                        <option value="'Noto Sans', sans-serif">Noto Sans</option>
+                        <option value="'Noto Serif', serif">Noto Serif</option>
+                        <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+                        <option value="'Anton', sans-serif">Anton</option>
+                        <option value="'Cinzel', serif">Cinzel</option>
+                        <option value="'Domine', serif">Domine</option>
+                        <option value="'Teko', sans-serif">Teko</option>
+                        <option value="'Kanit', sans-serif">Kanit</option>
+                        <option value="'Rubik', sans-serif">Rubik</option>
+                        <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
+                        <option value="'Josefin Slab', serif">Josefin Slab</option>
+                        <option value="'Zilla Slab', serif">Zilla Slab</option>
+                        <option value="'Arvo', serif">Arvo</option>
+                        <option value="'Amatic SC', cursive">Amatic SC</option>
+                        <option value="'Pacifico', cursive">Pacifico</option>
+                        <option value="'Dancing Script', cursive">Dancing Script</option>
+                        <option value="'Indie Flower', cursive">Indie Flower</option>
+                        <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
+                        <option value="'Great Vibes', cursive">Great Vibes</option>
+                        <option value="'Sacramento', cursive">Sacramento</option>
+                        <option value="'Caveat', cursive">Caveat</option>
+                        <option value="'Satisfy', cursive">Satisfy</option>
+                      </select>
+                                            
+                      <label class="visually-hidden" for="canvas-text-color-input">Color del texto</label>
+                      <input type="color" id="canvas-text-color-input" value="#ffffff" class="ms-2" aria-label="Color del texto" title="Color de texto">
+                       
+                      <label class="visually-hidden ms-2" for="canvas-text-bg-input">Fondo del texto</label>
+                      <input type="color" id="canvas-text-bg-input" value="#ffffff" class="ms-2" aria-label="Fondo del texto" title="Fondo del texto">
+                      <button type="button" id="canvas-text-bg-clear" class="btn btn-sm btn-outline-light ms-2" title="Sin fondo">Sin fondo</button>
+                </div>
+          </div>
+        </div>
+
+        <div class="card preview-panel bg-dark text-light border-secondary shadow-sm h-100">
+          <div class="card-body col-md-12">
+            <div class="col-md-12">
+              <div class="canvas-area" id="canvas-area" role="figure" aria-label="Área de composición de fotos">
+              <div class="canvas-wrap" id="canvas-wrap">
+                <canvas id="composite" width="900" height="600"
+                  aria-label="Canvas de composición de fotos, arrastra para posicionar"></canvas>
+              </div>
+              <div class="canvas-hint" id="canvas-hint" role="tooltip">Arrastra tu foto para posicionarla</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <noscript>
+    <div class="container mt-4">
+      <div class="alert alert-danger" role="alert">
+        <strong>JavaScript deshabilitado:</strong> Esta aplicación requiere JavaScript habilitado para funcionar
+        correctamente.
+      </div>
+    </div>
+  </noscript>
+
+  <script src="compositor.js" defer></script>
+</body>
+
+</html>
