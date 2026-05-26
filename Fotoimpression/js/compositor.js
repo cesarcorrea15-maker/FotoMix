@@ -1411,14 +1411,41 @@
 
       if (DOM.canvasTextItalic) {
         DOM.canvasTextItalic.addEventListener('click', () => {
-          state.text.italic = !state.text.italic;
-          const isActive = state.text.italic;
+          const isActive = false; // state.text.italic; // toggle handled in render loop for accurate preview state
+          
           try {
-            const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
-            document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
-              el.classList.toggle('text-italic-active', isActive);
-              el.style.fontStyle = isActive ? 'italic' : '';
-            });
+
+                if(seleccionComponente == 1)//Titulo
+                {
+                  state.text.italic = !state.text.italic;
+                  isActive = state.text.italic;
+                  const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
+                  document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
+                      el.classList.toggle('text-italic-active', isActive);
+                      el.style.fontStyle = isActive ? 'italic' : '';
+                    });
+
+                }else if(seleccionComponente == 3)//subtitulo
+                {
+                  state.subtitle.italic = !state.subtitle.italic;
+                  isActive = state.subtitle.italic;
+                  const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];
+                  document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
+                      el.classList.toggle('text-italic-active', isActive);
+                      el.style.fontStyle = isActive ? 'italic' : '';
+                    });
+                }
+                else if(seleccionComponente == 2)//Descripción
+                {
+                    state.description.italic = !state.description.italic;
+                    isActive = state.description.italic;
+                    const previewSelectors = ['.preview-panel>.section-title', '.preview-panel>.section-label'];      
+                    document.querySelectorAll(previewSelectors.join(',')).forEach(el => {
+                      el.classList.toggle('text-italic-active', isActive);
+                      el.style.fontStyle = isActive ? 'italic' : '';
+                  });
+                }
+            
           } catch (e) {}
           DOM.canvasTextItalic.setAttribute('aria-pressed', String(isActive));
           render();
@@ -1819,7 +1846,7 @@
   function attachCanvasEvents() {
     // Debounced mousemove handler for better performance
     const handleMouseMove = debounce((position) => {
-      if (!state.dragging && !state.resizing && !state.draggingText && !state.draggingDesc) {
+      if (!state.dragging && !state.resizing && !state.draggingText && !state.draggingDesc && !state.draggingSubtitle) {
         // Update cursor only when not interacting
         if (isOnResizeHandle(position.x, position.y)) {
           DOM.canvas.style.cursor = 'nwse-resize';
